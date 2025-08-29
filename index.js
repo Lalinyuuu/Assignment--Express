@@ -1,22 +1,15 @@
 import express from "express";
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
-app.get("/", (_req, res) => {
-    res.send("Express is running. Try /profiles?name=john");
+app.get("/", (_req, res) => res.send("Express is running"));
+
+
+app.get("/profiles", (_req, res) => {
+  return res.status(200).json({
+    data: { name: "john", age: 20 }
   });
-
-const profiles = [{ name: "john", age: 20 }];
-
-app.get("/profiles", (req, res) => {
-  const { name } = req.query;
-
-  if (name === "john") {
-    return res.json({ data: profiles[0] });
-  }
-
-  return res.status(404).json({ error: "Profile not found" });
 });
 
 app.listen(PORT, () => {
